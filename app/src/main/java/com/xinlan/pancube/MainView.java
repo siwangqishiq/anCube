@@ -30,15 +30,26 @@ public class MainView extends GLSurfaceView implements GLSurfaceView.Renderer {
             1.0f, 1.0f, -1.0f,     //反面右上7
     };
 
+//    float color[] = {
+//            0f, 1f, 0f, 1f,
+//            0f, 1f, 0f, 1f,
+//            0f, 1f, 0f, 1f,
+//            0f, 1f, 0f, 1f,
+//            1f, 1f, 0f, 1f,
+//            1f, 0f, 1f, 1f,
+//            1f, 0f, 0f, 1f,
+//            1f, 0f, 0f, 1f,
+//    };
+
     float color[] = {
-            0f, 1f, 0f, 1f,
-            0f, 1f, 0f, 1f,
-            0f, 1f, 0f, 1f,
-            0f, 1f, 0f, 1f,
-            1f, 0f, 0f, 1f,
-            1f, 0f, 0f, 1f,
-            1f, 0f, 0f, 1f,
-            1f, 0f, 0f, 1f,
+            0f,1f,0f,1f,
+            0f,1f,0f,1f,
+            0f,1f,0f,1f,
+            0f,1f,0f,1f,
+            1f,0f,0f,1f,
+            1f,0f,0f,1f,
+            1f,0f,0f,1f,
+            1f,0f,0f,1f,
     };
 
     short indices[] = {
@@ -116,9 +127,9 @@ public class MainView extends GLSurfaceView implements GLSurfaceView.Renderer {
                 3, 20);
 
         Matrix.setLookAtM(mVMatrix, 0,
-                5f, 5f, 10, //相机位置
+                0f, 5f, 10, //相机位置
                 0, 0, 0,//看向位置
-                1f, 0f, 0f//up位置
+                0f, 1f, 0f//up位置
         );
 
     }
@@ -131,22 +142,42 @@ public class MainView extends GLSurfaceView implements GLSurfaceView.Renderer {
         xAngle++;
 
 
-        glClearColor(0f, 0f, 0f, 1f);
+        glClearColor(1f, 1f, 1f, 1f);
         glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
 
         glUseProgram(mCubeShaderProgram);
-        //变换矩阵
-        Matrix.setRotateM(mMMatrix, 0,
-                0, 0, 1, 0);
+        //创建模型加载矩阵
+//        Matrix.setRotateM(mMMatrix, 0,
+//                0, 0, 1, 0);
+
+        mMMatrix[0] = 1;
+        mMMatrix[1] = 0;
+        mMMatrix[2] = 0;
+        mMMatrix[3] = 0;
+
+        mMMatrix[4] = 0;
+        mMMatrix[5] = 1;
+        mMMatrix[6] = 0;
+        mMMatrix[7] = 0;
+
+        mMMatrix[8] =  0;
+        mMMatrix[9] =  0;
+        mMMatrix[10] = 1;
+        mMMatrix[11] = 0;
+
+        mMMatrix[12] = 0;
+        mMMatrix[13] = 0;
+        mMMatrix[14] = 0;
+        mMMatrix[15] = 1;
+
 
         //位移 z轴正向位移
         Matrix.translateM(mMMatrix, 0,
-                0, 0, 1);
+                0, 0, 0);
 
-        //旋转Z轴正向位移
         Matrix.rotateM(mMMatrix, 0, xAngle,
-                1, 1, 1);
+                0, 1, 0);
 
         glUniformMatrix4fv( 2 , 1 , false , calMVPMatrix() , 0);
 
