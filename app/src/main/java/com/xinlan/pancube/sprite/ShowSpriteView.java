@@ -53,23 +53,17 @@ public class ShowSpriteView extends GLSurfaceView implements GLSurfaceView.Rende
         GLES30.glViewport(0, 0, width, height);
     }
 
+    double sizeAngle = 0;
+
     @Override
     public void onDrawFrame(GL10 gl) {
         float w = mSprite.width;
         float h = mSprite.height;
 
-        if (w >= 2) {
-            w = 1f;
-        } else {
-            w += 0.01f;
-        }
+        sizeAngle += 0.01f;
+        float size = (float) Math.sin(sizeAngle) + 1;
 
-        if (h >= 2) {
-            h = 1f;
-        } else {
-            h += 0.01f;
-        }
-        mSprite.setSize(w, h);
+        mSprite.setSize(size, size);
 
         GLES30.glClearColor(1f, 1f, 1f, 1f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
