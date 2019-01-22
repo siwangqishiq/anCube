@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.xinlan.pancube.demo.MixImageView;
+import com.xinlan.pancube.sprite.ShowSpriteView;
+
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView mMainView;
 
@@ -14,7 +17,9 @@ public class MainActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);   //应用运行时，保持屏幕高亮，不锁屏
         OpenglEsUtils.ctx = getApplication();
         //mMainView = new MainView(this);
-        mMainView = new RenderImageView(this);
+        //mMainView = new RenderImageView(this);
+        //mMainView = new MixImageView(this);
+        mMainView = new ShowSpriteView(this);
         setContentView(mMainView);
     }
 
