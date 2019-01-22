@@ -92,7 +92,7 @@ public class MainView extends GLSurfaceView implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        mCubeShaderProgram = ShaderUtils.buildShaderProgram(R.raw.cube_vertex, R.raw.cube_fragment);
+        mCubeShaderProgram = OpenglEsUtils.buildShaderProgram(R.raw.cube_vertex, R.raw.cube_fragment);
 
         mVertexPosBuf = ByteBuffer.allocateDirect(cubeVertices.length * Float.BYTES).
                 order(ByteOrder.nativeOrder())
