@@ -4,6 +4,7 @@ import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
+import com.xinlan.pancube.OpenglEsUtils;
 import com.xinlan.pancube.R;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -49,6 +50,8 @@ public class ShowFlipView extends GLSurfaceView implements GLSurfaceView.Rendere
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
 
         mBackground.render();
+
+        OpenglEsUtils.debugFps();
     }
 
     @Override

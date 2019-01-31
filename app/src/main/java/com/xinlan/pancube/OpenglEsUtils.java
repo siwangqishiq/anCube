@@ -27,6 +27,20 @@ public class OpenglEsUtils {
     public static Application ctx;
     public static final int NO_TEXTURE_ID = -1;
 
+    public static long framePerSecond = 0;
+    public static long lastTime = 0;
+
+    public static void debugFps() {
+        framePerSecond++;
+        long curTime = System.currentTimeMillis();
+        if (curTime - lastTime >= 1000) {
+            lastTime = curTime;
+            Log.d(TAG, "fps = " + framePerSecond);
+            //System.out.println("fps = " +framePerSecond);
+            framePerSecond = 0;
+        }
+    }
+
     public static int loadTexture(Context context, int resourceId) {
         final int[] textureObjectIds = new int[1];
         glGenTextures(1, textureObjectIds, 0);

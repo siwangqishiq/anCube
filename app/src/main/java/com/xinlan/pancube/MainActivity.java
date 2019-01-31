@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
         //mMainView = new RenderImageView(this);
         //mMainView = new MixImageView(this);
         //mMainView = new ShowSpriteView(this);
-        //mMainView = new ShowFlipView(this);
+        mMainView = new ShowFlipView(this);
         //mMainView = new DrawElemetsView(this);
-        mMainView = new MySurfaceView(this);
+        //mMainView = new MySurfaceView(this);
         setContentView(mMainView);
     }
 
