@@ -7,6 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.xinlan.pancube.demo.MixImageView;
+import com.xinlan.pancube.draw.DrawElemetsView;
 import com.xinlan.pancube.sprite.ImageFlipSprite;
 import com.xinlan.pancube.sprite.ShowFlipView;
 import com.xinlan.pancube.sprite.ShowSpriteView;
@@ -26,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
         //mMainView = new RenderImageView(this);
         //mMainView = new MixImageView(this);
         //mMainView = new ShowSpriteView(this);
-        mMainView = new ShowFlipView(this);
+        //mMainView = new ShowFlipView(this);
+        mMainView = new DrawElemetsView(this);
         setContentView(mMainView);
     }
 

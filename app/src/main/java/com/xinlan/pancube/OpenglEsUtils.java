@@ -14,11 +14,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 import static android.opengl.GLES30.*;
 import static android.opengl.GLUtils.texImage2D;
 
 public class OpenglEsUtils {
+    private static final String TAG = "Opengl3.0Es Util";
 
     public static Application ctx;
     public static final int NO_TEXTURE_ID = -1;
@@ -48,8 +52,8 @@ public class OpenglEsUtils {
         // black.
         GLES30.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         GLES30.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        GLES30.glTexParameteri(GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_R , GLES30.GL_REPEAT);
-        GLES30.glTexParameteri(GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_S , GLES30.GL_REPEAT);
+        GLES30.glTexParameteri(GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_R, GLES30.GL_REPEAT);
+        GLES30.glTexParameteri(GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_S, GLES30.GL_REPEAT);
         // Load the bitmap into the bound texture.
         texImage2D(GL_TEXTURE_2D, 0, bitmap, 0);
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -60,37 +64,37 @@ public class OpenglEsUtils {
         return textureObjectIds[0];
     }
 
-    public static void deleteTexture(final int textureId){
-        if(textureId < 0)
+    public static void deleteTexture(final int textureId) {
+        if (textureId < 0)
             return;
 
-        GLES30.glDeleteTextures(1 , new int[]{textureId}, 0 );
+        GLES30.glDeleteTextures(1, new int[]{textureId}, 0);
     }
 
-    public static int loadTexture(final Bitmap bit , final int textureId, final boolean recycle){
-        if(bit == null || bit.isRecycled())
+    public static int loadTexture(final Bitmap bit, final int textureId, final boolean recycle) {
+        if (bit == null || bit.isRecycled())
             return NO_TEXTURE_ID;
 
         int[] textureIds = new int[]{textureId};
 
-        if(textureId == NO_TEXTURE_ID){
-            GLES30.glGenTextures(1 , textureIds , 0);
-            GLES30.glBindTexture(GLES20.GL_TEXTURE_2D , textureIds[0]);
+        if (textureId == NO_TEXTURE_ID) {
+            GLES30.glGenTextures(1, textureIds, 0);
+            GLES30.glBindTexture(GLES20.GL_TEXTURE_2D, textureIds[0]);
 
             GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);
             GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_LINEAR);
 
-            GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_R , GLES30.GL_REPEAT);
-            GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D , GLES30.GL_TEXTURE_WRAP_S , GLES30.GL_REPEAT);
+            GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_R, GLES30.GL_REPEAT);
+            GLES30.glTexParameterf(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_S, GLES30.GL_REPEAT);
 
-            GLUtils.texImage2D(GLES30.GL_TEXTURE_2D , 0, bit , 0 );
-        }else{
-            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D , textureId);
-            GLUtils.texSubImage2D(GLES30.GL_TEXTURE_2D , 0,0,0, bit);
+            GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bit, 0);
+        } else {
+            GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId);
+            GLUtils.texSubImage2D(GLES30.GL_TEXTURE_2D, 0, 0, 0, bit);
             textureIds[0] = textureId;
         }
 
-        if(recycle){
+        if (recycle) {
             bit.recycle();
         }
 
@@ -118,8 +122,17 @@ public class OpenglEsUtils {
 
         glAttachShader(program, vertexShader);
         glAttachShader(program, fragShader);
-
         glLinkProgram(program);
+
+        final int[] linkStatus = new int[1];
+        glGetProgramiv(program, GL_LINK_STATUS, linkStatus, 0);
+        if (linkStatus[0] == 0) {
+            Log.e(TAG, "Linking of program failed.");
+            Log.e(TAG, "Results of linking program:\n" + glGetProgramInfoLog(program));
+            glDeleteProgram(program);
+            return -1;
+        }
+
         return program;
     }
 
@@ -132,8 +145,21 @@ public class OpenglEsUtils {
      */
     public static int loadShader(int type, String shaderCode) {
         int shader = GLES30.glCreateShader(type);
+        if (shader == 0) {
+            Log.e(TAG, "create shader error!");
+        }
+
         glShaderSource(shader, shaderCode);
         glCompileShader(shader);
+
+        final int[] compileStatus = new int[1];
+        glGetShaderiv(shader, GL_COMPILE_STATUS, compileStatus, 0);
+        if (compileStatus[0] == 0) {
+            Log.e(TAG, "Results of compiling source:" + glGetShaderInfoLog(shader));
+            glDeleteShader(shader);
+            return -1;
+        }
+
         return shader;
     }
 
@@ -168,6 +194,15 @@ public class OpenglEsUtils {
             throw new RuntimeException("Resource not found: " + resourceId, nfe);
         }
         return body.toString();
+    }
+
+    public static FloatBuffer allocateBuf(float array[]) {
+        ByteBuffer bb = ByteBuffer.allocateDirect(array.length * Float.BYTES)
+                .order(ByteOrder.nativeOrder());
+        FloatBuffer buf = bb.asFloatBuffer();
+        buf.put(array);
+        buf.position(0);
+        return buf;
     }
 
 }//end class
