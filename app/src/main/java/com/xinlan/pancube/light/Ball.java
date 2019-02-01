@@ -12,8 +12,8 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
-public class Circle {
-    private float mRadius = 0.7f;
+public class Ball {
+    private float mRadius = 1f;
 
     private int mProgramId;
     private int mMVPMatLocation;
@@ -23,7 +23,7 @@ public class Circle {
     private float[] mModelMat = new float[4 * 4];
     private float[] mMVPMat = new float[4 * 4];
 
-    public Circle() {
+    public Ball() {
         initShader();
         initVertex();
 
@@ -37,14 +37,6 @@ public class Circle {
     }
 
     private void initVertex() {
-        float v[] = {
-                -1.0f, -1.0f, 0.0f,
-                1.0f, -1.0f, 0.0f,
-                1.0f, 1.0f, 0.0f,
-                -1.0f, 1.0f, 0.0f,
-        };
-
-
         float delta = 10;
         ArrayList<Float> vLst = new ArrayList<Float>();
         vLst.add(0f);
@@ -84,7 +76,9 @@ public class Circle {
 
     private void calMvpMatrix(float[] viewMat, float[] projMat) {
         Matrix.setIdentityM(mMVPMat, 0);
-        Matrix.rotateM(mMVPMat, 0, mAngle, 0, 1, 0);
+        Matrix.setIdentityM(mModelMat, 0);
+
+        Matrix.rotateM(mModelMat, 0, mAngle, 0, 1, 0);
         mAngle++;
 
         Matrix.multiplyMM(mMVPMat, 0, mModelMat, 0, mMVPMat, 0);

@@ -22,7 +22,7 @@ import static android.opengl.GLES30.*;
 import static android.opengl.GLUtils.texImage2D;
 
 public class OpenglEsUtils {
-    private static final String TAG = "Opengl3.0Es Util";
+    private static final String TAG = "Geass";
 
     public static Application ctx;
     public static final int NO_TEXTURE_ID = -1;

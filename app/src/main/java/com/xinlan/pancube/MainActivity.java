@@ -6,13 +6,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.xinlan.pancube.demo.MixImageView;
-import com.xinlan.pancube.draw.DrawElemetsView;
-import com.xinlan.pancube.light.LightView;
-import com.xinlan.pancube.sample1.MySurfaceView;
-import com.xinlan.pancube.sprite.ImageFlipSprite;
-import com.xinlan.pancube.sprite.ShowFlipView;
-import com.xinlan.pancube.sprite.ShowSpriteView;
+import com.xinlan.pancube.light.CircleView;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView mMainView;
@@ -32,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         //mMainView = new ShowFlipView(this);
         //mMainView = new DrawElemetsView(this);
         //mMainView = new MySurfaceView(this);
-        mMainView = new LightView(this);
+        mMainView = new CircleView(this);
         setContentView(mMainView);
     }
 
