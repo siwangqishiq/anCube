@@ -8,6 +8,7 @@ import android.view.WindowManager;
 
 import com.xinlan.pancube.light.CircleView;
 import com.xinlan.pancube.light.RoatetCircleView;
+import com.xinlan.pancube.light.SphereRenderView;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView mMainView;
@@ -28,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         //mMainView = new DrawElemetsView(this);
         //mMainView = new MySurfaceView(this);
         //mMainView = new CircleView(this);
-        mMainView = new RoatetCircleView(this);
+        //mMainView = new RoatetCircleView(this);
+        mMainView = new SphereRenderView(this);
         setContentView(mMainView);
     }
 

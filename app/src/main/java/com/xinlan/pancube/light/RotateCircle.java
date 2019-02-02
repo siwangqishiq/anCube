@@ -63,10 +63,8 @@ public class RotateCircle {
 
     float mAngle;
 
-    public void render(float[] viewMat, float[] projMat) {
+    public void render() {
         GLES30.glUseProgram(mProgramId);
-
-        calMvpMatrix(viewMat, projMat);
 
         MatrixState.pushMatrix();
         MatrixState.rotate(mAngle , 0 , 1, 0);
