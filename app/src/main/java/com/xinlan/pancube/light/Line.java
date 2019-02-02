@@ -54,6 +54,7 @@ public class Line {
     }
 
     public void render(float[] viewMat, float[] projMat) {
+        MatrixState.pushMatrix();
         GLES30.glUseProgram(mProgram);
 
         calMvpMatrix(viewMat, projMat);
@@ -62,14 +63,17 @@ public class Line {
         GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 0, mBuf);
         GLES30.glEnableVertexAttribArray(0);
         GLES30.glDrawArrays(GLES20.GL_LINES, 0, 2);
+
+        MatrixState.popMatrix();
     }
 
     private void calMvpMatrix(float[] viewMat, float[] projMat) {
-        Matrix.setIdentityM(mMVPMat, 0);
-        Matrix.setIdentityM(mModelMat, 0);
+//        Matrix.setIdentityM(mMVPMat, 0);
+//        Matrix.setIdentityM(mModelMat, 0);
+//
+//        Matrix.multiplyMM(mMVPMat, 0, mModelMat, 0, mMVPMat, 0);
+//        Matrix.multiplyMM(mMVPMat, 0, viewMat, 0, mMVPMat, 0);
+//        Matrix.multiplyMM(mMVPMat, 0, projMat, 0, mMVPMat, 0);
 
-        Matrix.multiplyMM(mMVPMat, 0, mModelMat, 0, mMVPMat, 0);
-        Matrix.multiplyMM(mMVPMat, 0, viewMat, 0, mMVPMat, 0);
-        Matrix.multiplyMM(mMVPMat, 0, projMat, 0, mMVPMat, 0);
     }
 }//end class

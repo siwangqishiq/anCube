@@ -19,8 +19,7 @@ public final class MatrixState {
         Matrix.setRotateM(currMatrix, 0, 0, 1, 0, 0);
     }
 
-    public static void pushMatrix()//保护变换矩阵
-    {
+    public static void pushMatrix() {
         stackTop++;
         for (int i = 0; i < 16; i++) {
             mStack[stackTop][i] = currMatrix[i];
@@ -48,6 +47,7 @@ public final class MatrixState {
 
     //设置摄像机
     static float[] cameraLocation = new float[3];//摄像机位置
+
     public static void setCamera
             (
                     float cx,    //摄像机位置x
