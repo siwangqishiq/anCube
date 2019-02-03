@@ -39,8 +39,8 @@ public class ImageFlipSprite {
         y = 0;
         width = 1f;
         height = 1f;
-        updateVertex();
 
+        updateVertex();
         loadShader();
 
         mTexCoordBuf = ByteBuffer.allocateDirect(mTexCoords.length * Float.BYTES)

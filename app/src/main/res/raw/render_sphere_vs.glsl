@@ -2,9 +2,11 @@
 
 uniform mat4 u_mvp_matrix;
 layout(location = 0) in vec3 a_pos;
+out vec3 vPosition;
 
 void main(){
-    gl_PointSize = 8.0f;
+    //gl_PointSize = 8.0f;
     vec4 pos = vec4(a_pos , 1);
     gl_Position = u_mvp_matrix * pos;
+    vPosition = a_pos;
 }

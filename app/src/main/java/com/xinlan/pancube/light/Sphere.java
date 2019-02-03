@@ -46,20 +46,46 @@ public class Sphere {
                 float y0 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.sin(Math.toRadians(vAngle)));
                 float z0 = (float)(mRadius * Math.cos(Math.toRadians(hAngle)));
 
+
+                float x1 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.cos(Math.toRadians(vAngle + delta)));
+                float y1 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.sin(Math.toRadians(vAngle + delta)));
+                float z1 = (float)(mRadius * Math.cos(Math.toRadians(hAngle)));
+
+
+                float x2 = (float)(mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.cos(Math.toRadians(vAngle + delta)));
+                float y2 = (float)(mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.sin(Math.toRadians(vAngle + delta)));
+                float z2 = (float)(mRadius * Math.cos(Math.toRadians(hAngle + delta)));
+
+
+                float x3 = (float)(mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.cos(Math.toRadians(vAngle)));
+                float y3 = (float)(mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.sin(Math.toRadians(vAngle)));
+                float z3 = (float)(mRadius * Math.cos(Math.toRadians(hAngle + delta)));
+
+                //1 trigle
                 vLst.add(x0);
                 vLst.add(y0);
                 vLst.add(z0);
-//                float x1 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.cos(Math.toRadians(vAngle)));
-//                float y1 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.sin(Math.toRadians(vAngle)));
-//                float z1 = (float)(mRadius * Math.cos(Math.toRadians(hAngle)));
-//
-//                float x2 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.cos(Math.toRadians(vAngle)));
-//                float y2 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.sin(Math.toRadians(vAngle)));
-//                float z2 = (float)(mRadius * Math.cos(Math.toRadians(hAngle)));
-//
-//                float x3 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.cos(Math.toRadians(vAngle)));
-//                float y3 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.sin(Math.toRadians(vAngle)));
-//                float z3 = (float)(mRadius * Math.cos(Math.toRadians(hAngle)));
+
+                vLst.add(x1);
+                vLst.add(y1);
+                vLst.add(z1);
+
+                vLst.add(x2);
+                vLst.add(y2);
+                vLst.add(z2);
+
+                //2 trigle
+                vLst.add(x0);
+                vLst.add(y0);
+                vLst.add(z0);
+
+                vLst.add(x2);
+                vLst.add(y2);
+                vLst.add(z2);
+
+                vLst.add(x3);
+                vLst.add(y3);
+                vLst.add(z3);
             }//end for vAngle
 
         }//end for hAngle
@@ -77,18 +103,17 @@ public class Sphere {
         GLES30.glUseProgram(mProgramId);
 
         MatrixState.pushMatrix();
-        MatrixState.pushMatrix();
         MatrixState.translate(0 , 0, 0);
         MatrixState.rotate(mAngle , 0, 1 , 0);
         mAngle++;
         GLES30.glUniformMatrix4fv(mMVPMatLocation, 1, false, MatrixState.getFinalMatrix(), 0);
         MatrixState.popMatrix();
-        MatrixState.popMatrix();
 
-        GLES30.glVertexAttribPointer(0, 3, GLES20.GL_FLOAT, false, 0, mVertexBuf);
+        GLES30.glVertexAttribPointer(0, 3, GLES20.GL_FLOAT, false, 3 * 4, mVertexBuf);
         GLES30.glEnableVertexAttribArray(0);
-        //GLES30.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, mVertexCount);
-        GLES30.glDrawArrays(GLES20.GL_POINTS , 0 , mVertexCount);
+        //GLES30.glDrawArrays(GLES20.GL_TRIANGLES , 0 , mVertexCount);
+        GLES30.glDrawArrays(GLES20.GL_TRIANGLES, 0, mVertexCount);
+        //GLES30.glDrawArrays(GLES20.GL_POINTS , 0 , mVertexCount);
     }
 
     float mAngle = 0;
