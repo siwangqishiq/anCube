@@ -6,6 +6,7 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
+import com.xinlan.pancube.MatrixState;
 import com.xinlan.pancube.OpenglEsUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -84,9 +85,9 @@ public class CircleView extends GLSurfaceView implements GLSurfaceView.Renderer 
         GLES30.glClearColor(1f, 1f, 1f, 1f);
         GLES30.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
-        xline.render(mViewMatrix, mProjMatrix);
-        yline.render(mViewMatrix, mProjMatrix);
-        zline.render(mViewMatrix, mProjMatrix);
+        xline.render();
+        yline.render();
+        zline.render();
 
         ball.render(mViewMatrix, mProjMatrix);
         OpenglEsUtils.debugFps();

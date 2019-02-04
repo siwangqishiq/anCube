@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
+import com.xinlan.pancube.MatrixState;
 import com.xinlan.pancube.OpenglEsUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;

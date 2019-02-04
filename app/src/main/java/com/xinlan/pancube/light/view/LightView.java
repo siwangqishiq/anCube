@@ -1,21 +1,29 @@
-package com.xinlan.pancube.light;
+package com.xinlan.pancube.light.view;
 
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.util.AttributeSet;
 
 import com.xinlan.pancube.MatrixState;
 import com.xinlan.pancube.OpenglEsUtils;
+import com.xinlan.pancube.light.Ball;
+import com.xinlan.pancube.light.Line;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class RoatetCircleView extends GLSurfaceView implements GLSurfaceView.Renderer {
+public class LightView extends GLSurfaceView implements GLSurfaceView.Renderer {
     private Context context;
 
-    public RoatetCircleView(Context context) {
+    public LightView(Context context) {
         super(context);
+        initView(context);
+    }
+
+    public LightView(Context context, AttributeSet attrs) {
+        super(context, attrs);
         initView(context);
     }
 
@@ -31,11 +39,27 @@ public class RoatetCircleView extends GLSurfaceView implements GLSurfaceView.Ren
 
     //=======================================================
     float mRatio;
-    RotateCircle ball;
+    public float[] mViewMatrix = new float[4 * 4];
+    public float[] mProjMatrix = new float[4 * 4];
+
+    Line xline;
+    Line yline;
+    Line zline;
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        ball = new RotateCircle();
+        xline = new Line();
+        xline.update(-100, 0, 0,
+                100, 0, 0);
+
+        yline = new Line();
+        yline.update(0, -100, 0,
+                0, 100, 0);
+
+        zline = new Line();
+        zline.update(0, 0, -100,
+                0, 0, 100);
+
     }
 
     @Override
@@ -47,6 +71,7 @@ public class RoatetCircleView extends GLSurfaceView implements GLSurfaceView.Ren
                 0, 1, 0);
 
         mRatio = (float) width / height;
+        //Matrix.perspectiveM(mProjMatrix, 0, 90, mRatio, 1f, 1000);
         MatrixState.setProjectFrustum(-mRatio, mRatio, -1, 1,
                 20, 100);
 
@@ -54,11 +79,18 @@ public class RoatetCircleView extends GLSurfaceView implements GLSurfaceView.Ren
         MatrixState.setInitStack();
     }
 
+    int mAngle = 0;
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES30.glClearColor(1f, 1f, 1f, 1f);
         GLES30.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        ball.render();
+
+
+        xline.render();
+        yline.render();
+        zline.render();
+
+
         OpenglEsUtils.debugFps();
     }
 }//end class

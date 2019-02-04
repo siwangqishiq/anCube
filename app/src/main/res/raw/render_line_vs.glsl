@@ -6,5 +6,5 @@ layout(location = 0) in vec3 a_pos;
 void main(){
     vec4 pos = vec4(a_pos , 1);
     gl_Position = u_mvp_matrix * pos;
-    gl_PointSize = 5;
+    //gl_PointSize = 5.0f;
 }

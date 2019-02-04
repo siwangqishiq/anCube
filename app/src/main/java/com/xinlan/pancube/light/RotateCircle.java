@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.Matrix;
 
+import com.xinlan.pancube.MatrixState;
 import com.xinlan.pancube.OpenglEsUtils;
 import com.xinlan.pancube.R;
 

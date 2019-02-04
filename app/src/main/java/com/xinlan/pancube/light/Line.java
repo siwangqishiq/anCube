@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.Matrix;
 
+import com.xinlan.pancube.MatrixState;
 import com.xinlan.pancube.OpenglEsUtils;
 import com.xinlan.pancube.R;
 
@@ -53,12 +54,12 @@ public class Line {
         mBuf.position(0);
     }
 
-    public void render(float[] viewMat, float[] projMat) {
+    public void render() {
         MatrixState.pushMatrix();
         GLES30.glUseProgram(mProgram);
 
-        calMvpMatrix(viewMat, projMat);
-        GLES30.glUniformMatrix4fv(mMVPMatLocation, 1, false, mMVPMat, 0);
+        //calMvpMatrix(viewMat, projMat);
+        GLES30.glUniformMatrix4fv(mMVPMatLocation, 1, false, MatrixState.getFinalMatrix(), 0);
 
         GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 0, mBuf);
         GLES30.glEnableVertexAttribArray(0);

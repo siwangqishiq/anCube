@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.Matrix;
 
+import com.xinlan.pancube.MatrixState;
 import com.xinlan.pancube.OpenglEsUtils;
 import com.xinlan.pancube.R;
 
@@ -105,7 +106,8 @@ public class Sphere {
         MatrixState.pushMatrix();
         MatrixState.translate(0 , 0, 0);
         MatrixState.rotate(mAngle , 0, 1 , 0);
-        mAngle++;
+        //mAngle++;
+        MatrixState.translate(-1f , 0,0);
         GLES30.glUniformMatrix4fv(mMVPMatLocation, 1, false, MatrixState.getFinalMatrix(), 0);
         MatrixState.popMatrix();
 
