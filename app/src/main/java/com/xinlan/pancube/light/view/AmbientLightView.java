@@ -8,21 +8,20 @@ import android.util.AttributeSet;
 
 import com.xinlan.pancube.MatrixState;
 import com.xinlan.pancube.OpenglEsUtils;
-import com.xinlan.pancube.light.Ball;
 import com.xinlan.pancube.light.Line;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class LightView extends GLSurfaceView implements GLSurfaceView.Renderer {
+public class AmbientLightView extends GLSurfaceView implements GLSurfaceView.Renderer {
     private Context context;
 
-    public LightView(Context context) {
+    public AmbientLightView(Context context) {
         super(context);
         initView(context);
     }
 
-    public LightView(Context context, AttributeSet attrs) {
+    public AmbientLightView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
@@ -39,34 +38,19 @@ public class LightView extends GLSurfaceView implements GLSurfaceView.Renderer {
 
     //=======================================================
     float mRatio;
-    public float[] mViewMatrix = new float[4 * 4];
-    public float[] mProjMatrix = new float[4 * 4];
-
-    Line xline;
-    Line yline;
-    Line zline;
-
+    AmbientSphere sphere;
+    AmbientSphere sphere2;
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        xline = new Line();
-        xline.update(-100, 0, 0,
-                100, 0, 0);
-
-        yline = new Line();
-        yline.update(0, -100, 0,
-                0, 100, 0);
-
-        zline = new Line();
-        zline.update(0, 0, -100,
-                0, 0, 100);
-
+        sphere = new AmbientSphere();
+        sphere2 = new AmbientSphere();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES30.glViewport(0, 0, width, height);
 
-        MatrixState.setCamera(10, 30, 30,
+        MatrixState.setCamera(0, 0, 30,
                 0, 0, 0,
                 0, 1, 0);
 
@@ -82,14 +66,21 @@ public class LightView extends GLSurfaceView implements GLSurfaceView.Renderer {
     int mAngle = 0;
     @Override
     public void onDrawFrame(GL10 gl) {
-        GLES30.glClearColor(1f, 1f, 1f, 1f);
+        GLES30.glClearColor(0f, 0f, 0f, 1f);
         GLES30.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        MatrixState.pushMatrix();
 
+        MatrixState.pushMatrix();
+        MatrixState.translate(-1.2f , 0, 0);
+        sphere.render();
+        MatrixState.popMatrix();
 
-        xline.render();
-        yline.render();
-        zline.render();
+        MatrixState.pushMatrix();
+        MatrixState.translate(1.2f , 0, 0);
+        sphere2.render();
+        MatrixState.popMatrix();
 
+        MatrixState.popMatrix();
 
         OpenglEsUtils.debugFps();
     }
