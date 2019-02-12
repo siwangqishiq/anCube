@@ -7,6 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 
+import com.xinlan.pancube.MatrixState;
 import com.xinlan.pancube.OpenglEsUtils;
 import com.xinlan.pancube.R;
 
@@ -25,6 +26,23 @@ public class LightActivity extends AppCompatActivity {
 
         mSeekbar = (SeekBar) findViewById(R.id.light_offset);
         mMainView = (GLSurfaceView) findViewById(R.id.main_view);
+
+
+        mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                MatrixState.setDiffuseLightPos(progress , 0f , 1.5f);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
     }
 
     @Override

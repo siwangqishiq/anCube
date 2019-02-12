@@ -12,6 +12,18 @@ public class MatrixState {
     static float[][] mStack = new float[10][16];//用于保存变换矩阵的栈
     static int stackTop = -1;//栈顶索引
 
+    static float[] mDiffuseLightPos = new float[3];//漫反射光源位置
+
+    public static void setDiffuseLightPos(float x, float y, float z) {
+        mDiffuseLightPos[0] = x;
+        mDiffuseLightPos[1] = y;
+        mDiffuseLightPos[2] = z;
+    }
+
+    public static float[] getDiffuseLightPos() {
+        return mDiffuseLightPos;
+    }
+
     //产生无任何变换的初始矩阵
     public static void setInitStack() {
         currMatrix = new float[16];
