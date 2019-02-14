@@ -19,7 +19,7 @@ void main(){
     finalPos = finalPos + aCenterPos;
     gl_Position = vec4(finalPos.xyz , 1.0f);
 
-    gl_PointSize =  aLifeTime * aLifeTime * 20.0f;
+    gl_PointSize =  aLifeTime * aLifeTime * 40.0f;
 
     vColor = vec3(0.45f , 0.23f , 0.89f);
 }
