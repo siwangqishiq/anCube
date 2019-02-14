@@ -43,6 +43,7 @@ public class DiffuseLightView extends GLSurfaceView implements GLSurfaceView.Ren
     float mRatio;
     DiffuseSphere sphere;
     DiffuseSphere sphere2;
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         sphere = new DiffuseSphere();

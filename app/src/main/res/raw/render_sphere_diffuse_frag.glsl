@@ -5,10 +5,10 @@ precision mediump float;
 const float uR = 1.0f;
 
 in vec3 vPosition;
-in vec4 vAmbientColor;
+//in vec4 vAmbientColor;
 in vec4 vDiffuseColor;
 
-out vec4 frag_color;
+out vec4 fragColor;
 
 void main(){
     vec3 color;
@@ -24,8 +24,8 @@ void main(){
     }else {//偶数时为白色
         color = vec3(1.0f,1.0f,1.0f);//白色
     }
-    vec4 finalColor = vAmbientColor * vec4(color , 1.0);
+    //vec4 finalColor = vAmbientColor * vec4(color , 1.0);
 
-    finalColor = finalColor + vDiffuseColor;
-    frag_color = vec4(finalColor.xyz , 1.0f);
+    //finalColor = finalColor + vDiffuseColor;
+    fragColor = vec4(color.xyz , 1.0f);
 }

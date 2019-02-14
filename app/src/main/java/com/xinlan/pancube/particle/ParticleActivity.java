@@ -1,19 +1,15 @@
-package com.xinlan.pancube.light;
+package com.xinlan.pancube.particle;
 
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.SeekBar;
-
-import com.xinlan.pancube.MatrixState;
 import com.xinlan.pancube.OpenglEsUtils;
-import com.xinlan.pancube.R;
 
-public class LightActivity extends AppCompatActivity {
+public class ParticleActivity extends AppCompatActivity {
     private GLSurfaceView mMainView;
-    private SeekBar mSeekbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,32 +18,14 @@ public class LightActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);   //应用运行时，保持屏幕高亮，不锁屏
         OpenglEsUtils.ctx = getApplication();
-        setContentView(R.layout.activity_light);
-
-        mSeekbar = (SeekBar) findViewById(R.id.light_offset);
-        mMainView = (GLSurfaceView) findViewById(R.id.main_view);
-
-        mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                MatrixState.setDiffuseLightPos(progress , 0f , 1.5f);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
+        mMainView = new ParticleView(this);
+        setContentView(mMainView);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(mMainView != null){
+        if (mMainView != null) {
             mMainView.onPause();
         }
     }
@@ -56,7 +34,7 @@ public class LightActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if(mMainView != null){
+        if (mMainView != null) {
             mMainView.onResume();
         }
     }

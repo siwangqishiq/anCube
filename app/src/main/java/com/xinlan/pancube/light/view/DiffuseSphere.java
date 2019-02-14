@@ -121,7 +121,7 @@ public class DiffuseSphere {
                 MatrixState.getDiffuseLightPos()[1],
                 MatrixState.getDiffuseLightPos()[2], 1f);
 
-        GLES30.glVertexAttribPointer(0, 3, GLES20.GL_FLOAT, false, 3 * 4, mVertexBuf);
+        GLES30.glVertexAttribPointer(0, 3, GLES20.GL_FLOAT, false, 0, mVertexBuf);
         GLES30.glVertexAttribPointer(1, 3, GLES20.GL_FLOAT, false, 0, mNormalBuf);
         GLES30.glEnableVertexAttribArray(0);
         GLES30.glDrawArrays(GLES20.GL_TRIANGLES, 0, mVertexCount);
