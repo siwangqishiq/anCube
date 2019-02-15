@@ -41,26 +41,26 @@ public class Sphere {
         float delta = 10;
         ArrayList<Float> vLst = new ArrayList<Float>();
 
-        for(int hAngle = 0 ; hAngle <= 360 ; hAngle += delta){
-            for(int vAngle = -90 ; vAngle <= 90 ; vAngle += delta){
-                float x0 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.cos(Math.toRadians(vAngle)));
-                float y0 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.sin(Math.toRadians(vAngle)));
-                float z0 = (float)(mRadius * Math.cos(Math.toRadians(hAngle)));
+        for (int hAngle = 0; hAngle <= 360; hAngle += delta) {
+            for (int vAngle = -90; vAngle <= 90; vAngle += delta) {
+                float x0 = (float) (mRadius * Math.sin(Math.toRadians(hAngle)) * Math.cos(Math.toRadians(vAngle)));
+                float y0 = (float) (mRadius * Math.sin(Math.toRadians(hAngle)) * Math.sin(Math.toRadians(vAngle)));
+                float z0 = (float) (mRadius * Math.cos(Math.toRadians(hAngle)));
 
 
-                float x1 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.cos(Math.toRadians(vAngle + delta)));
-                float y1 = (float)(mRadius * Math.sin(Math.toRadians(hAngle)) * Math.sin(Math.toRadians(vAngle + delta)));
-                float z1 = (float)(mRadius * Math.cos(Math.toRadians(hAngle)));
+                float x1 = (float) (mRadius * Math.sin(Math.toRadians(hAngle)) * Math.cos(Math.toRadians(vAngle + delta)));
+                float y1 = (float) (mRadius * Math.sin(Math.toRadians(hAngle)) * Math.sin(Math.toRadians(vAngle + delta)));
+                float z1 = (float) (mRadius * Math.cos(Math.toRadians(hAngle)));
 
 
-                float x2 = (float)(mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.cos(Math.toRadians(vAngle + delta)));
-                float y2 = (float)(mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.sin(Math.toRadians(vAngle + delta)));
-                float z2 = (float)(mRadius * Math.cos(Math.toRadians(hAngle + delta)));
+                float x2 = (float) (mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.cos(Math.toRadians(vAngle + delta)));
+                float y2 = (float) (mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.sin(Math.toRadians(vAngle + delta)));
+                float z2 = (float) (mRadius * Math.cos(Math.toRadians(hAngle + delta)));
 
 
-                float x3 = (float)(mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.cos(Math.toRadians(vAngle)));
-                float y3 = (float)(mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.sin(Math.toRadians(vAngle)));
-                float z3 = (float)(mRadius * Math.cos(Math.toRadians(hAngle + delta)));
+                float x3 = (float) (mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.cos(Math.toRadians(vAngle)));
+                float y3 = (float) (mRadius * Math.sin(Math.toRadians(hAngle + delta)) * Math.sin(Math.toRadians(vAngle)));
+                float z3 = (float) (mRadius * Math.cos(Math.toRadians(hAngle + delta)));
 
                 //1 trigle
                 vLst.add(x0);
@@ -100,14 +100,20 @@ public class Sphere {
         mVertexBuf.position(0);
     }
 
+    float x;
+
     public void render() {
+        MatrixState.pushMatrix();
+        x += 0.12f;
+        //MatrixState.translate(x, 0, 0);
+
         GLES30.glUseProgram(mProgramId);
 
         MatrixState.pushMatrix();
-        MatrixState.translate(0 , 0, 0);
-        MatrixState.rotate(mAngle , 0, 1 , 0);
+        MatrixState.translate(0, 0, 0);
+        MatrixState.rotate(mAngle, 0, 1, 0);
         //mAngle++;
-        MatrixState.translate(-1f , 0,0);
+        MatrixState.translate(-1f, 0, 0);
         GLES30.glUniformMatrix4fv(mMVPMatLocation, 1, false, MatrixState.getFinalMatrix(), 0);
         MatrixState.popMatrix();
 
@@ -116,6 +122,8 @@ public class Sphere {
         //GLES30.glDrawArrays(GLES20.GL_TRIANGLES , 0 , mVertexCount);
         GLES30.glDrawArrays(GLES20.GL_TRIANGLES, 0, mVertexCount);
         //GLES30.glDrawArrays(GLES20.GL_POINTS , 0 , mVertexCount);
+
+        MatrixState.popMatrix();
     }
 
     float mAngle = 0;

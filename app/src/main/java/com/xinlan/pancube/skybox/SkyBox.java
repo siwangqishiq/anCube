@@ -88,6 +88,10 @@ public class SkyBox {
     public void render() {
         //GLES30.glEnable(GLES20.GL_DEPTH_TEST);
         //GLES30.glDisable(GLES30.GL_CULL_FACE);
+        mAngle += 0.1f;
+
+        MatrixState.pushMatrix();
+        MatrixState.rotate(mAngle , 0 , 1, 0);
 
         GLES30.glUseProgram(mProgram);
 
@@ -102,5 +106,7 @@ public class SkyBox {
         GLES30.glEnableVertexAttribArray(0);
 
         GLES30.glDrawElements(GLES30.GL_TRIANGLES, 36, GLES30.GL_UNSIGNED_BYTE, mCubeIndexBuf);
+
+        MatrixState.popMatrix();
     }
 }//end class
