@@ -66,15 +66,21 @@ public class SkyBox {
         mCubeBuf = OpenglEsUtils.allocateBuf(CubeCoords);
         mCubeIndexBuf = OpenglEsUtils.allocateBuf(CubeIndex);
 
-        mSkyBoxTexture = OpenglEsUtils.loadCubeMap(OpenglEsUtils.ctx, new int[]{
-                R.drawable.left, R.drawable.right, R.drawable.bottom,
-                R.drawable.top, R.drawable.front, R.drawable.back
-        });
+//        mSkyBoxTexture = OpenglEsUtils.loadCubeMap(OpenglEsUtils.ctx, new int[]{
+//                R.drawable.left, R.drawable.right, R.drawable.bottom,
+//                R.drawable.top, R.drawable.front, R.drawable.back
+//        });
 
 //        mSkyBoxTexture = OpenglEsUtils.loadCubeMap(OpenglEsUtils.ctx, new int[]{
 //                R.drawable.lena, R.drawable.lena, R.drawable.lena,
 //                R.drawable.lena, R.drawable.lena, R.drawable.lena
 //        });
+
+
+        mSkyBoxTexture = OpenglEsUtils.loadCubeMap(OpenglEsUtils.ctx, new int[]{
+                R.drawable.universe_left, R.drawable.universe_right, R.drawable.universe_bottom,
+                R.drawable.universe_up, R.drawable.universe_front, R.drawable.universe_back
+        });
 
         //mSkyBoxTexture = OpenglEsUtils.loadTexture(OpenglEsUtils.ctx , R.drawable.pokemon);
 
