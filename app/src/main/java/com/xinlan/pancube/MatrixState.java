@@ -127,4 +127,29 @@ public class MatrixState {
     public static float[] getMMatrix() {
         return currMatrix;
     }
+
+    public static void setPerspective(float yFovInDegrees, float aspect, float n, float f) {
+        final float angleInRadians = (float) (yFovInDegrees * Math.PI / 180.0);
+        final float a = (float) (1.0 / Math.tan(angleInRadians / 2.0));
+
+        mProjMatrix[0] = a / aspect;
+        mProjMatrix[1] = 0f;
+        mProjMatrix[2] = 0f;
+        mProjMatrix[3] = 0f;
+
+        mProjMatrix[4] = 0f;
+        mProjMatrix[5] = a;
+        mProjMatrix[6] = 0f;
+        mProjMatrix[7] = 0f;
+
+        mProjMatrix[8] = 0f;
+        mProjMatrix[9] = 0f;
+        mProjMatrix[10] = -((f + n) / (f - n));
+        mProjMatrix[11] = -1f;
+
+        mProjMatrix[12] = 0f;
+        mProjMatrix[13] = 0f;
+        mProjMatrix[14] = -((2f * f * n) / (f - n));
+        mProjMatrix[15] = 0f;
+    }
 }//end class

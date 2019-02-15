@@ -41,6 +41,61 @@ public class OpenglEsUtils {
         }
     }
 
+    /**
+     * 载入立方体纹理资源
+     *
+     * @param context
+     * @param cubeResources
+     * @return
+     */
+    public static int loadCubeMap(Context context , int[] cubeResources){
+        if(context == null || cubeResources == null || cubeResources.length < 6)
+            return -1;
+
+        final int[] textureObjectIds = new int[1];
+        GLES30.glGenTextures(1 , textureObjectIds , 0);
+        if(textureObjectIds[0] == 0){
+            Log.e(TAG, "Could not generate a new OpenGL texture object !");
+            return -1;
+        }
+        final BitmapFactory.Options option = new BitmapFactory.Options();
+        option.inScaled = false;
+        final int CUBE_MAP_SIZE = 6;
+        final Bitmap[] cubeBits = new Bitmap[CUBE_MAP_SIZE];
+        for(int i = 0 ; i < CUBE_MAP_SIZE; i++){
+            cubeBits[i] = BitmapFactory.decodeResource(context.getResources() , cubeResources[i] , option);
+
+            if(cubeBits[i] == null){
+                Log.e(TAG, "Resource ID " + cubeResources[i] + " could not be decoded.");
+
+                GLES30.glDeleteTextures(1 , textureObjectIds , 0);
+                return -1;
+            }
+        }//end for i
+
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_CUBE_MAP , textureObjectIds[0]);
+
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_CUBE_MAP, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_CUBE_MAP, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_LINEAR);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_CUBE_MAP, GLES30.GL_TEXTURE_WRAP_R, GLES30.GL_REPEAT);
+        GLES30.glTexParameterf(GLES30.GL_TEXTURE_CUBE_MAP, GLES30.GL_TEXTURE_WRAP_S, GLES30.GL_REPEAT);
+
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_X , 0 , cubeBits[0] , 0);//左
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X , 0 , cubeBits[1] , 0);//右
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y , 0 , cubeBits[2] , 0);//下
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Y , 0 , cubeBits[3] , 0);//上
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z , 0 , cubeBits[4] , 0);//前
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Z , 0 , cubeBits[5] , 0);//后
+
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_CUBE_MAP, 0);
+        // free bitmap
+        for(Bitmap bit : cubeBits){
+            bit.recycle();
+        }//end for each
+
+        return textureObjectIds[0];
+    }
+
     public static int loadTexture(Context context, int resourceId) {
         final int[] textureObjectIds = new int[1];
         glGenTextures(1, textureObjectIds, 0);
@@ -210,6 +265,7 @@ public class OpenglEsUtils {
         return body.toString();
     }
 
+
     public static FloatBuffer allocateBuf(float array[]) {
         ByteBuffer bb = ByteBuffer.allocateDirect(array.length * Float.BYTES)
                 .order(ByteOrder.nativeOrder());
@@ -217,6 +273,14 @@ public class OpenglEsUtils {
         buf.put(array);
         buf.position(0);
         return buf;
+    }
+
+    public static ByteBuffer allocateBuf(byte array[]) {
+        ByteBuffer bb = ByteBuffer.allocateDirect(array.length * Byte.BYTES)
+                .order(ByteOrder.nativeOrder());
+        bb.put(array);
+        bb.position(0);
+        return bb;
     }
 
 }//end class
